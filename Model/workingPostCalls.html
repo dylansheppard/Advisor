@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<title>View Advisees Online</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="../css/main.css">
+<link rel = "stylesheet"href="../css/dropdown.css">
+<div class = "container" ng-app = "studentApp" ng-controller = "StudentListCtrl" id = "id01" >
+		
+	<button onclick="reqIt()">LOGIN</button>
+	
+	<div class = "row">
+		<div class = "col-sm-2">
+	
+		<div class = "container">
+			<ul>
+    <li class="dropdown">
+      <input type="checkbox" />
+      <a href="#" data-toggle="dropdown">My Students</a>
+      <ul class="dropdown-menu">
+       
+			
+		<li ng-repeat = "student in students"  ng-click="getGraph(student)">
+			
+			<img src = {{student.image}}>
+			 <h4>{{student.lastName}} ,{{student.firstName}}</h4>
+			
+		</li>
+		
+		
+      </ul>
+    </li>
+   </ul>
+	</div>
+	</div>
+    
+	</div>
+<div class = "row">
+	
+		
+		</div>
+	
+</div>
+</div>
+
+<div class = "col-sm-5 col-sm-offset-3" id = "graphArea">
+	
+</div>
+
+
+<div class = "col-sm-2" id = "infoArea">
+</div>
+</div>
+	</div>
+
+	<div class = "row">
+		
+	</div>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.js"></script>
+	
+	
+	
+	<script>
+	
+	
+	//TODO - LGOIN SYSTEM , SPECIFY URL
+	
+	
+
+
+Element.prototype.hasClass = function(className) {
+	
+    return this.className && new RegExp("(^|\\s)" + className + "(\\s|$)").test(this.className);
+};
+	
+	var url = "http://162.243.36.18:8000/students.json/";
+	var firstTime = true;
+	
+ 
+var studentApp = angular.module('studentApp', []);
+
+studentApp.controller('StudentListCtrl', function ($scope, $http) {
+  $http.get(url).success(function(data) {
+  	console.log(data);
+	//lazy scope variables, at least there's only 2
+	$scope.currentStudent;
+	$scope.currentClass;
+	
+    $scope.students = data;
+    });
+
+   
+   //function creates the course graph for student, specified by passing that specific student object 
+  $scope.getGraph = function(student) {
+    	$scope.currentStudent = student;
+    	
+    	var classArr = student.classes;
+    	
+    	
+    	//TODO - probably don't need this if statement
+    	if (firstTime) {
+    			firstTime = false;
+    		}
+    		
+    		else {
+    			//must clear graphArea, or else new elements will be appended on existing ones
+    			document.getElementById("graphArea").innerHTML = "";
+    			document.getElementById("infoArea").innerHTML = "";
+    		}
+    		
+    		var label = document.createElement("div");
+    		//display name
+    		var name = document.createTextNode(student.lastName + ", " + student.firstName);
+    		label.appendChild(name);
+    			//append that label to graph ID
+    		  document.getElementById("graphArea").appendChild(label);
+    		  
+    		  //this loop creates each graph component
+    	for (var i = 0; i < student.classes.length; i++) {
+    		
+    		//TODO - CSS for buttons is probably going to have to be generated HERE via javascript. That's always fun and not messy
+    		var button = document.createElement("input");
+    		
+    button.type = "button";
+
+     button.value = classArr[i].name;
+     button.id = i;
+   
+    button.onclick = function() {
+    	$scope.currentClass = this.id;
+    	var index = $scope.students.indexOf($scope.currentStudent);
+				
+    	$scope.displayButtonInfo($scope.students[index].classes[$scope.currentClass], $scope.currentStudent); //passes info on currently selected class, and full student JSON 
+    };
+  
+   
+    
+    if (classArr[i].grade === "") {
+    	button.style.color = "#ff0000";
+    }
+    else {
+    	button.style.color = "#00ff00";
+    }
+   // button.onclick = func;
+    document.getElementById("graphArea").appendChild(button);
+    	
+    	}//end for loop
+    	
+    };
+    /*displays info of current class. 
+   	index = index of dynamically created class button (only way to access it)
+   	student = JSON of currently selected student
+   
+   */
+  //TODO make it pass an index, and simply the student array	
+   $scope.displayButtonInfo = function(currClass, student) {
+   	 document.getElementById("infoArea").innerHTML = "";
+   		console.log("You made it " + student.lastName + "  " + "index = " + currClass);
+   		
+   		 var label = document.createElement("h1");
+   		 var name = document.createTextNode(currClass.name); 
+   		 label.appendChild(name);
+   		 document.getElementById("infoArea").appendChild(label);
+   		 
+   		 var fullForm = document.createElement("form");
+   		 fullForm.method='POST';
+   		 fullForm.action= $scope.saveJSON();
+   		 var gradeForm = document.createElement("input");
+   		 
+   		 gradeForm.value = currClass.grade;
+   		 gradeForm.id = "grade";
+   		 var commentForm = document.createElement("input");
+   		 commentForm.id = "comment";
+   		 commentForm.value = currClass.comment;
+   		 fullForm.appendChild(document.createTextNode("Class Grade:"));
+   		fullForm.appendChild(gradeForm);
+   		 fullForm.appendChild(document.createTextNode("Comment:"));
+   		fullForm.appendChild(commentForm);
+   		infoArea.appendChild(fullForm);
+   		
+   		$scope.createGradeListener(gradeForm);
+   		$scope.createCommentListener(commentForm);
+   		
+   };
+   
+   $scope.createGradeListener = function (element) {
+		element.onkeyup = function() {
+		
+			var currText  = document.getElementById("grade").value;
+			var index = $scope.students.indexOf($scope.currentStudent);
+				console.log("Previous input = " + $scope.students[index].classes[$scope.currentClass].grade);
+				console.log('New input=  '  + currText);
+			$scope.students[index].classes[$scope.currentClass].grade = currText;
+			$scope.postJSON();
+			
+			$scope.$apply();
+		};
+	};
+	 $scope.createCommentListener = function (element) {
+		element.onkeypress = function() {
+			console.log("Comment changy");
+			
+		};
+	};
+
+    
+    $scope.postJSON = function() {
+    	var res = $http.post('http://162.243.36.18:8000/students.json/', $scope.students);
+		res.success(function(data, status, headers, config) {
+			console.log("you posted son");
+			$scope.message = data;
+		});
+		res.error(function(data, status, headers, config) {
+			alert( "failure message: " + JSON.stringify({data: data}));
+		});	
+    };
+   $scope.saveJSON = function() {
+   		console.log("saving JSON");
+   };
+  });
+
+
+
+	function reqIt() {
+		var xmlhttp = new XMLHttpRequest();
+		var url = "http://162.243.36.18:8000/students.json/";
+		
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var data =xmlhttp.responseText;
+					console.log(xmlhttp.responseText);
+					
+					document.getElementById("id01") = data;
+			}
+		};
+		
+		xmlhttp.open("GET", url, true);
+		
+		xmlhttp.send();
+	}
+	
+	
+
+	</script>
+	
+</html>
