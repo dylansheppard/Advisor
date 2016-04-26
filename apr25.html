@@ -1,0 +1,483 @@
+
+
+<!DOCTYPE html>
+<title>View Advisees Online</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="../css/main.css">
+<link rel = "stylesheet"href="../css/dropdown.css">
+<link rel = "stylesheet" href="../css/tree.css">
+<div class = "container" ng-app = "studentApp" ng-controller = "StudentListCtrl" id = "id01" >
+		
+	
+	<div class = "row">
+		<div class = "col-sm-2">
+	
+		<div class = "container">
+			<ul>
+    <li class="dropdown">
+      <input type="checkbox" />
+      <a href="#" id = "studentTab" data-toggle="dropdown">My Students</a>
+      <ul class="dropdown-menu">
+       
+			
+		<li ng-repeat = "student in students"  ng-click="getGraph(student)">
+			
+			<img src = {{student.image}}>
+			 <h4>{{student.lastName}} ,{{student.firstName}}</h4>
+			
+		</li>
+		
+		
+      </ul>
+    </li>
+   </ul>
+	</div>
+	</div>
+	
+	<div class = "col-sm-2 col-sm-offset-10" id = "studentHead" >
+		Current Student
+	</div>
+    
+	</div>
+<div class = "row">
+	
+		
+		</div>
+	
+</div>
+</div>
+
+	<div class = "col-sm-7 col-sm-offset-3" id = "graphArea">
+	<div id = "studentArea" style="padding-left: 600px">
+	</div>
+	<div class="tree"  style = "padding-left: 60px">
+	<ul>
+		<li>
+			<a href="#" id = "0"></a>
+			<ul>
+		<li>
+		<a href="#" id = "1"></a>
+	
+		<ul>
+		<ul>
+		<li>
+		<a href="#" id = "10"></a>
+		</li>
+		<li>
+		<a href = "#" id = "5"></a>
+			<ul>
+		<li>
+		<a href = "#" id = "8"></a>
+		</li>
+		</ul>
+		</li>
+		
+		<li>
+		<a href = "#" id = "3"></a>
+			<ul>
+		<li>
+		<a href = "#" id = "9"></a>
+		</li>
+		</ul>
+		</li>
+		
+		<li>
+		<a href = "#" id = "4"></a>
+			<ul>
+		<li>
+		<a href = "#" id = "6"></a>
+		</li>
+		</ul>
+		</li>
+		
+		<li>
+		<a href = "#" id = "2"></a>
+		<ul>
+		<li>
+		<a href = "#" id = "7"></a>
+		</li>
+		</ul>
+		</li>
+		
+		</ul>
+	
+	</ul>
+	     </li>
+		</ul>
+	
+				
+				</li>
+				</ul>
+			</div>
+			<div style = "height:400px;"></div>
+			<div class = "tree" style = "padding-left: 150px;">
+				<ul>
+		<li>
+			<a href="#" id = "14"></a>
+			<ul>
+		<li>
+		<a href="#" id = "15"></a>
+		
+		</li>
+	
+		</ul>
+		
+		</li>
+		<li>
+			<a href="#" id = "16"></a>
+			<ul>
+		<li>
+		<a href="#" id = "17"></a>
+		
+		</li>
+		</ul>
+		</li>
+		
+			<li>
+			<a href="#" id = "12"></a>
+			<ul>
+		<li>
+		<a href="#" id = "13"></a>
+		
+		</li>
+		</ul>
+		</li>
+		<li>
+			<a href="#" id = "11"></a>
+		</ul>
+				</div>
+</div>
+</div>
+<div class = "col-sm-2" id = "infoArea">
+</div>
+</div>
+	</div>
+
+	<div class = "row">
+		
+	</div>
+	<script src= "https://code.jquery.com/jquery-2.2.3.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	
+	
+	<script>
+	
+	
+	//TODO - LGOIN SYSTEM , SPECIFY URL
+	
+	/*
+	 * 
+	 * helpful class index key:
+	 * 0 CompSci-I,
+1 CPS310-CompSci-II,
+2 MAT320-DiscreteMath,
+3 CPS315-CompSci-III,
+4 CPS352-OOP,
+5 CPS330-Assembly.Arch.,
+6 CPS353-SoftEng,
+7 CPS415-Disc.Cont.Algorithms,
+8 CPS340-Op.Sys
+9 ,CPS425-Lang.Processing,
+10 CPS493-Elect-1,
+11 CPS493-Projects
+12 EGC230-Dig.Logic,
+13 EGC208-Dig.Logic.Lab,
+14 MAT251-Calc-I,
+15 MAT252-Calc-II,
+16 1SCIENCE-I,
+17 SCIENCE-II
+	 */
+
+
+Element.prototype.hasClass = function(className) {
+	
+    return this.className && new RegExp("(^|\\s)" + className + "(\\s|$)").test(this.className);
+};
+	
+	var url = "http://162.243.36.18:8000/students.json/";
+	var firstTime = true;
+	
+ 
+var studentApp = angular.module('studentApp', []);
+
+studentApp.controller('StudentListCtrl', function ($scope, $http) {
+  $http.get(url).success(function(data) {
+  	console.log(data);
+	//lazy scope variables, at least there's only 2
+	$scope.currentStudent;
+	$scope.currentClass;
+	
+	
+    $scope.students = data;
+    });
+
+   
+   //function creates the course graph for student, specified by passing that specific student object 
+  $scope.getGraph = function(student) {
+    	$scope.currentStudent = student;
+    		var classesCompleted = 0;
+    	
+ 
+   			document.getElementById("infoArea").innerHTML = "";
+   			var studentHead = document.getElementById("studentHead");
+   		//	studentArea.innerHTML = "";
+   			var bufDiv = document.createElement("div");
+   			studentHead.appendChild(bufDiv);
+   			
+    		var label = document.createElement("h4");
+    		
+    		
+    		
+    		//display name
+    		var name = document.createTextNode(student.lastName + ", " + student.firstName);
+    		label.appendChild(name);
+    		label.style.cssFloat = "right";
+    		
+    		var img = document.createElement("img");
+    		img.src = student.image;
+    		img.style.cssFloat = "left";
+    		studentHead.appendChild(img);
+    		studentHead.appendChild(label);
+    		
+    		
+   
+    		  
+    		 
+    		 
+    		  //this loop creates each graph component
+    	for (var i = 0; i < student.classes.length ; i++) {
+    		console.log("Parsing class number = " + i + " and the name is " + student.classes[i].name);
+    		
+    		var currentNode = document.getElementById(i); //returns current DOM node labeled by number
+    		//loop to delete all previous content, avoiding propogation of info
+ 			while (currentNode.hasChildNodes()) {
+ 				currentNode.removeChild(currentNode.lastChild);
+ 			}
+ var className = document.createElement("h6");
+ className.appendChild(document.createTextNode(student.classes[i].name));
+ currentNode.appendChild(className);
+  var bufferDiv = document.createElement("div");
+  currentNode.appendChild(bufferDiv);
+ var gradeButton=  $scope.createGradeButton(i);
+ var commentButton = $scope.createCommentButton(i);
+  
+  
+  currentNode.appendChild(gradeButton);
+   currentNode.appendChild(commentButton);
+     		  if (student.classes[i].grade === "") {
+    	currentNode.style.background = "#ff0000";
+    }
+    else {
+    	classesCompleted++;
+    	currentNode.style.background = "#00ff00";
+    }
+  
+ 
+    
+
+    	
+    	}//end for loop
+    	
+    	var classesDone = document.createElement("h5");
+    		var done = document.createTextNode("Classes completed: " + classesCompleted);
+    		classesDone.appendChild(done);
+    		classesDone.style.cssFloat = "right";
+    		studentHead.appendChild(classesDone);
+    	
+    	
+    	
+    };
+    
+   $scope.createGradeButton = function(index) {
+   	 var button = document.createElement("button");
+   	button.className = "btn btn-xs";
+    button.id = index + 100; //to avoid conflicting ID's
+  var infoIcon = document.createElement("span");
+  infoIcon.className = "glyphicon glyphicon-info-sign";
+  
+  if ($scope.currentStudent.classes[index].grade == "") {
+  	button.style.color = "#ff0000";
+    }
+    else {
+    	button.style.color = "#00ff00";
+    }
+  
+  
+  button.appendChild(infoIcon);
+  button.onclick = function() {
+  		$scope.currentClass = this.id - 100;
+    	var index = $scope.students.indexOf($scope.currentStudent);
+				
+    	$scope.displayButtonInfo($scope.students[index].classes[$scope.currentClass], $scope.currentStudent); //passes info on currently selected class, and full student JSON 
+    
+  };
+  
+  		return button;
+   };
+   //return a button reference 
+     $scope.createCommentButton = function(index) {
+   	 var button = document.createElement("button"); //the comment button that will popover textarea
+   	button.className = "btn btn-xs";
+    button.id = index + 200; //to avoid conflicting ID's
+  var pencilIcon = document.createElement("span");
+  pencilIcon.className = "glyphicon glyphicon-pencil";
+  button.appendChild(pencilIcon);
+    if ($scope.currentStudent.classes[index].grade == "") {
+  	button.style.color = "#ff0000";
+    }
+    else {
+    	button.style.color = "#00ff00";
+    }
+  
+  
+  
+ $(button).popover({
+ 	html: true,
+ 	title: "Comment:",
+ 	placement: "bottom",
+ 	content: $scope.displayButtonInfo($scope.currentStudent.classes[index], $scope.currentStudent)
+ }).parent().on('click', "body", function() {
+ 	alert("hi mommy again");
+ });
+ 
+$('html').on('mousedown', function (e) {
+    $('.popover').each(function () {
+        //the 'is' for buttons that trigger popups
+        //the 'has' for icons within a button that triggers a popup
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+             $(this).popover('hide');
+        }
+    });
+});
+  button.onclick = function() {
+  		$scope.currentClass = this.id - 200;
+    	
+    //	$scope.displayButtonInfo($scope.students[index].classes[$scope.currentClass], $scope.currentStudent);
+		
+    	//$scope.displayCommentModal(index,$scope.students[index].classes[$scope.currentClass].comment, $scope.currentStudent); //passes info on currently selected class, and full student JSON 
+    
+  };
+  
+  		return button;
+   };
+   
+   
+    /*displays info of current class. 
+   	index = index of dynamically created class button (only way to access it)
+   	student = JSON of currently selected student
+   
+   */
+  //TODO make it pass an index, and simply the student array	
+   $scope.displayButtonInfo = function(currClass, student) {
+   	 document.getElementById("infoArea").innerHTML = "";
+   		console.log("You made it " + student.lastName + "  " + "index = " + currClass);
+   		
+   		 var label = document.createElement("h1");
+   		 var name = document.createTextNode(currClass.name); 
+   		 label.appendChild(name);
+   		 document.getElementById("infoArea").appendChild(label);
+   		 
+   		 var fullForm = document.createElement("form");
+   		 fullForm.method='POST';
+   		 fullForm.action= $scope.saveJSON();
+   		 var gradeForm = document.createElement("input");
+   		 
+   		 gradeForm.value = currClass.grade;
+   		 gradeForm.id = "grade";
+   		 var commentForm = document.createElement("input");
+   		 commentForm.id = "comment";
+   		 commentForm.value = currClass.comment;
+   		 fullForm.appendChild(document.createTextNode("Class Grade:"));
+   		fullForm.appendChild(gradeForm);
+   		 fullForm.appendChild(document.createTextNode("Comment:"));
+   		 
+   		
+   		fullForm.appendChild(commentForm);
+   		$scope.createGradeListener(gradeForm);
+   	    $scope.createCommentListener(commentForm);
+   		return fullForm;
+   		//infoArea.appendChild(fullForm);
+   		
+   		
+   		
+   };
+   //TODO sanitize inputs, . etc
+   var acceptedGrades = ["A", "A-", "B+", "B", "B-", "C+", "C", "","C-"]; //global, or whatever its called in this crazy language
+   $scope.createGradeListener = function (element) {
+		element.onkeyup = function() {
+		
+			var currText  = document.getElementById("grade").value;
+			var index = $scope.students.indexOf($scope.currentStudent);
+				console.log("Previous input = " + $scope.students[index].classes[$scope.currentClass].grade);
+				console.log('New input=  '  + currText);
+				var p;
+				for (p = 0; p < acceptedGrades.length; p++) {
+					if (currText === acceptedGrades[p])
+					{
+						$scope.students[index].classes[$scope.currentClass].grade = currText;
+						$scope.postJSON();
+						var node = document.getElementById($scope.currentClass);
+						console.log("currently changing class id " + $scope.currentClass);
+						node.style.color = "00ff00";
+						$scope.$apply();
+						break;
+					}
+					
+				}
+			
+				if ((p == acceptedGrades.length) && !(currText === "C-")) {
+					alert("Invalid grade. Acceptable grades fall within the range of (A to C minus)");	
+				}
+				
+				if (currText === "F" | "D" | "D+" |"D-") {
+					alert('Failing grades are ignored and will not be saved.');
+				}
+		
+			
+		
+		};
+	};
+	
+	
+	 $scope.createCommentListener = function (element) {
+		element.onkeyup = function() {
+		
+			var commentText  = document.getElementById("comment").value;
+			var index = $scope.students.indexOf($scope.currentStudent);
+			$scope.students[index].classes[$scope.currentClass].comment = commentText;
+			$scope.postJSON();
+			
+			$scope.$apply();
+		};
+			
+		};
+	
+
+    
+    $scope.postJSON = function() {
+    	var res = $http.post('http://162.243.36.18:8000/students.json/', $scope.students);
+		res.success(function(data, status, headers, config) {
+			//console.log("you posted son");
+			$scope.message = data;
+		});
+		res.error(function(data, status, headers, config) {
+			alert( "failure message: " + JSON.stringify({data: data}));
+		});	
+    };
+   $scope.saveJSON = function() {
+   		console.log("saving JSON");
+   };
+  });
+
+
+	</script>
+	
+</html>
